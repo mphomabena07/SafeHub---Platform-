@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHub - Shop Local, Sell Fast</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding-bottom: 70px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: #2E7D32;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .cart-count {
+            background-color: #FF9800;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background-color: #DCFCE7;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #1B5E20;
+        }
+
+        .hero p {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1B5E20;
+        }
+
+        .btn-sell {
+            background-color: white;
+            color: #2E7D32;
+            border: 2px solid #2E7D32;
+        }
+
+        .btn-sell:hover {
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 30px 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #1B5E20;
+            margin: 0;
+        }
+
+        .see-all {
+            color: #2E7D32;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .see-all:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== CATEGORIES ===== */
+        .category-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category-card {
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: black;
+        }
+
+        .category-card:hover {
+            background-color: #2E7D32;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ===== PRODUCT GRID (HOMEPAGE) ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            color: #FF9800;
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+        }
+
+        .location {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .verified {
+            font-size: 0.7rem;
+            color: #2E7D32;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2E7D32;
+            margin: 5px 0;
+        }
+
+        .buy-now-btn {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+
+        .buy-now-btn:hover {
+            background-color: #1B5E20;
+        }
+
+        /* ===== PRODUCT DETAILS PAGE ===== */
+        .product-details-page {
+            display: none;
+            padding: 20px;
+        }
+
+        .product-details-page.show {
+            display: block;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2E7D32;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .product-details-grid {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .product-details-image {
+            width: 300px;
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 12px;
+            background-color: #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        .product-details-info {
+            flex: 1;
+        }
+
+        .product-details-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .product-details-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2E7D32;
+            margin: 15px 0;
+        }
+
+        .quantity-section {
+            margin: 20px 0;
+        }
+
+        .quantity-label {
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .quantity-selector {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            background-color: #f0f0f0;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .quantity-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .details-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .details-buy-btn {
+            flex: 1;
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        /* Add to Cart button */
+        .details-cart-btn {
+            flex: 1;
+            background-color: white;
+            color: #2E7D32;
+            border: 2px solid #2E7D32;
+            padding: 12px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .details-cart-btn:hover {
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        .seller-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .delivery-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .escrow-note {
+            background-color: #DCFCE7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* ===== CART PAGE ===== */
+        .cart-page {
+            display: none;
+            padding: 20px;
+        }
+
+        .cart-page.show {
+            display: block;
+        }
+
+        .main-page {
+            display: block;
+        }
+
+        .main-page.hide {
+            display: none;
+        }
+
+        .cart-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .qty-btn {
+            background-color: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .remove-btn {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .cart-total {
+            background-color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .back-btn {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* ===== CHECKOUT PAGE ===== */
+        .checkout-page {
+            display: none;
+            padding: 20px;
+        }
+
+        .checkout-page.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .bottom-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bottom-nav a:hover {
+            color: #2E7D32;
+        }
+
+        .bottom-nav a.active {
+            color: #2E7D32;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .product-details-grid {
+                flex-direction: row;
+            }
+            .category-grid {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .product-card {
+                flex-direction: column;
+            }
+            .product-image {
+                width: 100%;
+                height: 150px;
+            }
+            .product-details-grid {
+                flex-direction: column;
+            }
+            .product-details-image {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">
+        <h1 id="logoHome">SafeHub</h1>
+    </div>
+    <div class="header-icons">
+        <a href="#" id="cartIconBtn">🛒 <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+</header>
+
+<!-- MAIN PAGE (Homepage) -->
+<div id="mainPage" class="main-page">
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>Welcome to SafeHub</h2>
+        <p>Shop local, sell fast</p>
+        <button class="btn btn-primary" id="shopNowBtn">Start Shopping</button>
+        <button class="btn btn-sell" id="sellNowBtn">Sell Now</button>
+    </div>
+
+    <!-- Categories -->
+    <div class="section">
+        <div class="section-header">
+            <h3 class="section-title">Categories</h3>
+            <a class="see-all" id="seeAllCategories">See all →</a>
+        </div>
+        <div class="category-grid">
+            <div class="category-card">👕 Clothing</div>
+            <div class="category-card">🍔 Food</div>
+            <div class="category-card">📱 Electronics</div>
+            <div class="category-card">🪑 Furniture</div>
+            <div class="category-card">💄 Beauty</div>
+            <div class="category-card">📦 Other</div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="section">
+        <div class="section-header">
+            <h3 class="section-title">Featured Products</h3>
+            <a class="see-all" id="seeAllProducts">See all →</a>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+</div>
+
+<!-- PRODUCT DETAILS PAGE -->
+<div id="productDetailsPage" class="product-details-page">
+    <a class="back-link" id="backToHomeFromDetails">← Back to Home</a>
+    <div id="productDetailsContent"></div>
+</div>
+
+<!-- CART PAGE -->
+<div id="cartPage" class="cart-page">
+    <h2 class="section-title">Your Shopping Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal">Total: R0</div>
+    <button class="back-btn" id="checkoutFromCartBtn">Proceed to Checkout</button>
+    <button class="back-btn" id="backToShopFromCartBtn" style="background-color: #666; margin-top: 10px;">← Back to Shop</button>
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div id="checkoutPage" class="checkout-page">
+    <h2 class="section-title">Checkout</h2>
+    
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Thabo Mokoena">
+    </div>
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="071 234 5678">
+    </div>
+    <div class="form-group">
+        <label>Pickup Point</label>
+        <select id="pickupPoint">
+            <option>Khumalo Spaza - Soweto</option>
+            <option>Ncube Spaza - Tembisa</option>
+            <option>Dlamini Market - Durban</option>
+        </select>
+    </div>
+    
+    <div class="escrow-note">
+        🔒 Your payment will be held in escrow until you confirm delivery
+    </div>
+    
+    <div class="cart-total" id="checkoutTotal">Total: R0</div>
+    
+    <button class="back-btn" id="confirmOrderBtn">Confirm Order & Pay</button>
+    <button class="back-btn" id="backToCartFromCheckoutBtn" style="background-color: #666; margin-top: 10px;">← Back to Cart</button>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav">
+    <a id="navHome" class="active">🏠 Home</a>
+    <a id="navCart">🛒 Cart</a>
+    <a id="navOrders">📦 Orders</a>
+    <a id="navProfile">👤 Profile</a>
+</div>
+
+<script>
+    // ============================================
+    // PRODUCT DATA
+    // ============================================
+    const products = [
+        { 
+            id: 1, 
+            name: "Vetkoek", 
+            price: 10, 
+            rating: 4.7, 
+            reviews: 32, 
+            location: "Soweto, Johannesburg", 
+            seller: "Mama's Fresh Bakery", 
+            sellerRating: 4.8, 
+            sellerSales: 234, 
+            description: "Freshly made daily. Traditional South African vetkoek filled with mince or jam, served with homemade koeksisters. Perfect for breakfast or lunch.", 
+            deliveryInfo: "Pick up from Ncube Spaza - Soweto (2km from you). Free delivery to pickup point.",
+            image: "images/vetkoek.jpg"
+        },
+        { 
+            id: 2, 
+            name: "Sneakers - Nike", 
+            price: 450, 
+            rating: 4.6, 
+            reviews: 18, 
+            location: "Sandton, Johannesburg", 
+            seller: "SneakerHub SA", 
+            sellerRating: 4.8, 
+            sellerSales: 234, 
+            description: "Brand new Nike Air Max. Size 42. Original box included. Free pickup from spaza shop.", 
+            deliveryInfo: "Pick up from Ncube Spaza - Soweto (2km from you). Free delivery to pickup point.",
+            image: "images/sneakers.jpg"
+        },
+        { 
+            id: 3, 
+            name: "Traditional Beaded Necklace", 
+            price: 120, 
+            rating: 4.9, 
+            reviews: 50, 
+            location: "Durban, KZN", 
+            seller: "Nguni Crafts", 
+            sellerRating: 4.9, 
+            sellerSales: 156, 
+            description: "Handmade authentic Zulu beaded necklace. Beautiful craftsmanship, perfect for cultural events or everyday wear. Each piece is unique.", 
+            deliveryInfo: "Pick up from Dlamini Market - Durban (1km from you). Free delivery to pickup point.",
+            image: "images/necklace.jpg"
+        }
+    ];
+
+    let cart = [];
+    const storageKey = 'safehubCart';
+
+    // ============================================
+    // CART FUNCTIONS
+    // ============================================
+    function loadCart() {
+        const savedCart = localStorage.getItem(storageKey);
+        if (savedCart) {
+            try {
+                cart = JSON.parse(savedCart);
+            } catch(e) {
+                cart = [];
+            }
+        }
+        updateCartCount();
+    }
+
+    function saveCart() {
+        localStorage.setItem(storageKey, JSON.stringify(cart));
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountElement = document.getElementById('cartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+        }
+    }
+
+    function addToCart(id, name, price, quantity = 1) {
+        const existingItem = cart.find(item => item.id === id);
+        
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            cart.push({ id, name, price, quantity: quantity });
+        }
+        
+        saveCart();
+        renderCartPage();
+    }
+
+    function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+        renderCartPage();
+        updateCheckoutTotal();
+    }
+
+    function updateQuantity(id, newQuantity) {
+        if (newQuantity < 1) {
+            removeFromCart(id);
+            return;
+        }
+        
+        const item = cart.find(item => item.id === id);
+        if (item) {
+            item.quantity = newQuantity;
+            saveCart();
+            renderCartPage();
+            updateCheckoutTotal();
+        }
+    }
+
+    function getTotal() {
+        return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    function renderCartPage() {
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalElement = document.getElementById('cartTotal');
+        
+        if (!cartItemsContainer) return;
+        
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p style="text-align:center; padding:40px;">Your cart is empty.<br>Start shopping!</p>';
+            if (cartTotalElement) cartTotalElement.textContent = 'Total: R0';
+            return;
+        }
+        
+        let html = '';
+        let total = 0;
+        
+        for (let i = 0; i < cart.length; i++) {
+            const item = cart[i];
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            
+            html += `
+                <div class="cart-item">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div>Price: R${item.price}</div>
+                    <div class="cart-quantity">
+                        <button class="qty-btn" data-id="${item.id}" data-change="-1">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-btn" data-id="${item.id}" data-change="1">+</button>
+                    </div>
+                    <div class="cart-item-price">Subtotal: R${itemTotal}</div>
+                    <button class="remove-btn" data-id="${item.id}">Remove</button>
+                </div>
+            `;
+        }
+        
+        cartItemsContainer.innerHTML = html;
+        if (cartTotalElement) cartTotalElement.textContent = `Total: R${total}`;
+        
+        document.querySelectorAll('.qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                const change = parseInt(btn.dataset.change);
+                const item = cart.find(i => i.id === id);
+                if (item) updateQuantity(id, item.quantity + change);
+            });
+        });
+        
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                removeFromCart(id);
+            });
+        });
+    }
+
+    function updateCheckoutTotal() {
+        const checkoutTotal = document.getElementById('checkoutTotal');
+        if (checkoutTotal) checkoutTotal.textContent = `Total: R${getTotal()}`;
+    }
+
+    // ============================================
+    // PAGE DISPLAY FUNCTIONS
+    // ============================================
+    function showMainPage() {
+        document.getElementById('mainPage').style.display = 'block';
+        document.getElementById('productDetailsPage').style.display = 'none';
+        document.getElementById('cartPage').style.display = 'none';
+        document.getElementById('checkoutPage').style.display = 'none';
+        renderProductGrid();
+    }
+
+    function showProductDetailsPage(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('productDetailsPage').style.display = 'block';
+        document.getElementById('cartPage').style.display = 'none';
+        document.getElementById('checkoutPage').style.display = 'none';
+        
+        renderProductDetails(product);
+    }
+
+    function showCartPage() {
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('productDetailsPage').style.display = 'none';
+        document.getElementById('cartPage').style.display = 'block';
+        document.getElementById('checkoutPage').style.display = 'none';
+        renderCartPage();
+    }
+
+    function showCheckoutPage() {
+        if (cart.length === 0) {
+            alert('Your cart is empty. Add items before checkout.');
+            return;
+        }
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('productDetailsPage').style.display = 'none';
+        document.getElementById('cartPage').style.display = 'none';
+        document.getElementById('checkoutPage').style.display = 'block';
+        updateCheckoutTotal();
+    }
+
+    // ============================================
+    // RENDER FUNCTIONS
+    // ============================================
+    function renderProductGrid() {
+        const grid = document.getElementById('productGrid');
+        if (!grid) return;
+        
+        let html = '';
+        for (let i = 0; i < products.length; i++) {
+            const p = products[i];
+            html += `
+                <div class="product-card" data-id="${p.id}">
+                    <img class="product-image" src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+                    <div class="product-info">
+                        <div class="product-title">${p.name}</div>
+                        <div class="rating">★ ${p.rating} (${p.reviews} reviews)</div>
+                        <div class="location">📍 ${p.location}</div>
+                        <div class="verified">✅ Verified seller</div>
+                        <div class="price">R${p.price}</div>
+                        <button class="buy-now-btn view-details-btn" data-id="${p.id}">Buy Now</button>
+                    </div>
+                </div>
+            `;
+        }
+        grid.innerHTML = html;
+        
+        document.querySelectorAll('.view-details-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                showProductDetailsPage(id);
+            });
+        });
+    }
+
+    function renderProductDetails(product) {
+        const container = document.getElementById('productDetailsContent');
+        let quantity = 1;
+        
+        const html = `
+            <div class="product-details-grid">
+                <img class="product-details-image" src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/300x300?text=No+Image'">
+                <div class="product-details-info">
+                    <h1>${product.name}</h1>
+                    <div class="rating">★ ${product.rating} (${product.reviews} reviews)</div>
+                    <div class="product-details-price">R${product.price}</div>
+                    
+                    <div class="quantity-section">
+                        <span class="quantity-label">Quantity:</span>
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" id="decrementQty">-</button>
+                            <span class="quantity-value" id="qtyValue">1</span>
+                            <button class="quantity-btn" id="incrementQty">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="details-buttons">
+                        <button class="details-cart-btn" id="addToCartDetails">Add to Cart</button>
+                        <button class="details-buy-btn" id="buyNowDetails">Buy Now</button>
+                    </div>
+                    
+                    <div class="seller-card">
+                        <strong>Seller: ${product.seller}</strong><br>
+                        ✅ Verified seller<br>
+                        ⭐ ${product.sellerRating} seller rating (${product.sellerSales} sales)
+                    </div>
+                    
+                    <div class="delivery-card">
+                        <strong>📦 Delivery</strong><br>
+                        ${product.deliveryInfo}
+                    </div>
+                    
+                    <div class="escrow-note">
+                        🔒 Your payment will be held in escrow until you confirm delivery
+                    </div>
+                    
+                    <div>
+                        <strong>Description:</strong><br>
+                        ${product.description}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+        
+        document.getElementById('decrementQty').addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('qtyValue').textContent = quantity;
+            }
+        });
+        
+        document.getElementById('incrementQty').addEventListener('click', () => {
+            quantity++;
+            document.getElementById('qtyValue').textContent = quantity;
+        });
+        
+        document.getElementById('addToCartDetails').addEventListener('click', () => {
+            addToCart(product.id, product.name, product.price, quantity);
+            alert(`${quantity} x ${product.name} added to cart!`);
+        });
+        
+        document.getElementById('buyNowDetails').addEventListener('click', () => {
+            addToCart(product.id, product.name, product.price, quantity);
+            showCartPage();
+        });
+    }
+
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        loadCart();
+        renderProductGrid();
+        
+        // Navigation
+        document.getElementById('logoHome').addEventListener('click', () => showMainPage());
+        document.getElementById('navHome').addEventListener('click', () => showMainPage());
+        document.getElementById('navCart').addEventListener('click', () => showCartPage());
+        document.getElementById('cartIconBtn').addEventListener('click', (e) => { e.preventDefault(); showCartPage(); });
+        document.getElementById('backToShopFromCartBtn').addEventListener('click', () => showMainPage());
+        document.getElementById('backToHomeFromDetails').addEventListener('click', () => showMainPage());
+        document.getElementById('checkoutFromCartBtn').addEventListener('click', () => showCheckoutPage());
+        document.getElementById('backToCartFromCheckoutBtn').addEventListener('click', () => showCartPage());
+        
+        // "See all" links
+        document.getElementById('seeAllCategories').addEventListener('click', () => {
+            alert('All categories page coming soon. Browse through Clothing, Food, Electronics, Furniture, Beauty, and Other.');
+        });
+        document.getElementById('seeAllProducts').addEventListener('click', () => {
+            alert('All products page coming soon. Check back for more great items from local sellers.');
+        });
+        
+        // Scroll buttons
+        document.getElementById('shopNowBtn').addEventListener('click', () => {
+            document.querySelector('.product-grid').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        document.getElementById('sellNowBtn').addEventListener('click', () => {
+            alert('To sell on SafeHub, please register as a seller and complete identity verification.');
+        });
+        
+        // Placeholder nav
+        document.getElementById('navOrders').addEventListener('click', () => { alert('Order history will appear here once you complete a purchase.'); });
+        document.getElementById('navProfile').addEventListener('click', () => { alert('Profile page coming soon. Your account settings will be available here.'); });
+        
+        // Confirm order
+        document.getElementById('confirmOrderBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            const name = document.getElementById('fullName').value;
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            alert(`Order confirmed!\nTotal: R${getTotal()}\nPickup at selected spaza shop.\nPayment held in escrow until you confirm delivery.`);
+            cart = [];
+            saveCart();
+            renderCartPage();
+            showMainPage();
+            document.getElementById('fullName').value = '';
+            document.getElementById('phone').value = '';
+        });
+        
+        showMainPage();
+    });
+</script>
+</body>
+</html>

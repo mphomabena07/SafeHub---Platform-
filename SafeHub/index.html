@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHub - Shop Local, Sell Fast</title>
+    <style>
+        /* CSS included here but separated in 2.4.e */
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">
+        <h1 id="logoHome">SafeHub</h1>
+    </div>
+    <div class="header-icons">
+        <a href="#" id="cartIconBtn">🛒 <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+</header>
+
+<!-- MAIN PAGE (Homepage) -->
+<div id="mainPage" class="main-page">
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>Welcome to SafeHub</h2>
+        <p>Shop local, sell fast</p>
+        <button class="btn btn-primary" id="shopNowBtn">Start Shopping</button>
+        <button class="btn btn-sell" id="sellNowBtn">Sell Now</button>
+    </div>
+
+    <!-- Categories -->
+    <div class="section">
+        <div class="section-header">
+            <h3 class="section-title">Categories</h3>
+            <a class="see-all" id="seeAllCategories">See all →</a>
+        </div>
+        <div class="category-grid">
+            <div class="category-card">👕 Clothing</div>
+            <div class="category-card">🍔 Food</div>
+            <div class="category-card">📱 Electronics</div>
+            <div class="category-card">🪑 Furniture</div>
+            <div class="category-card">💄 Beauty</div>
+            <div class="category-card">📦 Other</div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="section">
+        <div class="section-header">
+            <h3 class="section-title">Featured Products</h3>
+            <a class="see-all" id="seeAllProducts">See all →</a>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+</div>
+
+<!-- PRODUCT DETAILS PAGE -->
+<div id="productDetailsPage" class="product-details-page">
+    <a class="back-link" id="backToHomeFromDetails">← Back to Home</a>
+    <div id="productDetailsContent"></div>
+</div>
+
+<!-- CART PAGE -->
+<div id="cartPage" class="cart-page">
+    <h2 class="section-title">Your Shopping Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal">Total: R0</div>
+    <button class="back-btn" id="checkoutFromCartBtn">Proceed to Checkout</button>
+    <button class="back-btn" id="backToShopFromCartBtn" style="background-color: #666; margin-top: 10px;">← Back to Shop</button>
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div id="checkoutPage" class="checkout-page">
+    <h2 class="section-title">Checkout</h2>
+    
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Thabo Mokoena">
+    </div>
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="071 234 5678">
+    </div>
+    <div class="form-group">
+        <label>Pickup Point</label>
+        <select id="pickupPoint">
+            <option>Khumalo Spaza - Soweto</option>
+            <option>Ncube Spaza - Tembisa</option>
+            <option>Dlamini Market - Durban</option>
+        </select>
+    </div>
+    
+    <div class="escrow-note">
+        🔒 Your payment will be held in escrow until you confirm delivery
+    </div>
+    
+    <div class="cart-total" id="checkoutTotal">Total: R0</div>
+    
+    <button class="back-btn" id="confirmOrderBtn">Confirm Order & Pay</button>
+    <button class="back-btn" id="backToCartFromCheckoutBtn" style="background-color: #666; margin-top: 10px;">← Back to Cart</button>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav">
+    <a id="navHome" class="active">🏠 Home</a>
+    <a id="navCart">🛒 Cart</a>
+    <a id="navOrders">📦 Orders</a>
+    <a id="navProfile">👤 Profile</a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
