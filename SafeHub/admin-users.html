@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHub - Admin User Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header */
+        .admin-header {
+            background-color: #2E7D32;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-btn {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .admin-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-right: 1px solid #ddd;
+            padding: 20px 0;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .sidebar a.active {
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* Header actions */
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .add-btn {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        /* Table */
+        .data-table {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 3px;
+        }
+
+        .btn-edit {
+            background-color: #FF9800;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        .btn-verify {
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        /* Modal for add/edit user */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: #2E7D32;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 15px;
+        }
+
+        .modal-content .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .modal-content .form-group input,
+        .modal-content .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .save-btn {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background-color: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="logo">
+            <h1>SafeHub Admin Panel</h1>
+        </div>
+        <div class="admin-info">
+            <span id="adminName">Admin</span>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <div class="sidebar">
+            <a href="admin-dashboard.html">📊 Dashboard</a>
+            <a href="admin-users.html" class="active">👥 User Management</a>
+            <a href="#" id="productsLink">📦 Products</a>
+            <a href="#" id="ordersLink">🛒 Orders</a>
+        </div>
+
+        <div class="main-content">
+            <div class="header-actions">
+                <button class="add-btn" id="addUserBtn">+ Add New User</button>
+                <input type="text" class="search-box" id="searchInput" placeholder="Search users...">
+            </div>
+
+            <table class="data-table" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <tr><td colspan="6">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Add New User</h3>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="userRole">
+                        <option value="Buyer">Buyer</option>
+                        <option value="Seller">Seller</option>
+                        <option value="Pickup Point">Pickup Point</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="userStatus">
+                        <option value="Active">Active</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Pending Verification">Pending Verification</option>
+                        <option value="Suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="save-btn">Save</button>
+                    <button type="button" class="cancel-btn" id="closeModalBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample user data
+        let users = [
+            { id: 1, name: "Thabo Mokoena", email: "thabo@email.com", role: "Seller", status: "Verified" },
+            { id: 2, name: "Lerato S.", email: "lerato@email.com", role: "Buyer", status: "Active" },
+            { id: 3, name: "Khumalo Spaza", email: "spaza@email.com", role: "Pickup Point", status: "Active" },
+            { id: 4, name: "Zandi N.", email: "zandi@email.com", role: "Seller", status: "Pending Verification" },
+            { id: 5, name: "Admin User", email: "admin@safehub.co.za", role: "Admin", status: "Active" }
+        ];
+
+        let nextId = 6;
+
+        // Check if user is logged in
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        // Render users table
+        function renderUsersTable(filter = '') {
+            const tbody = document.getElementById('usersTableBody');
+            if (!tbody) return;
+            
+            let filteredUsers = users;
+            if (filter) {
+                filteredUsers = users.filter(user => 
+                    user.name.toLowerCase().includes(filter.toLowerCase()) ||
+                    user.email.toLowerCase().includes(filter.toLowerCase())
+                );
+            }
+            
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">No users found</td></tr>';
+                return;
+            }
+            
+            let html = '';
+            filteredUsers.forEach(user => {
+                html += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role}</td>
+                        <td>${user.status}</td>
+                        <td>
+                            <button class="btn btn-edit" onclick="editUser(${user.id})">Edit</button>
+                            <button class="btn btn-delete" onclick="deleteUser(${user.id})">Delete</button>
+                            ${user.status === 'Pending Verification' ? `<button class="btn btn-verify" onclick="verifyUser(${user.id})">Verify</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Add new user
+        function addUser(name, email, role, status) {
+            const newUser = {
+                id: nextId++,
+                name: name,
+                email: email,
+                role: role,
+                status: status
+            };
+            users.push(newUser);
+            renderUsersTable();
+            alert(`User "${name}" added successfully!`);
+        }
+
+        // Update existing user
+        function updateUser(id, name, email, role, status) {
+            const userIndex = users.findIndex(u => u.id === id);
+            if (userIndex !== -1) {
+                users[userIndex] = { id, name, email, role, status };
+                renderUsersTable();
+                alert(`User "${name}" updated successfully!`);
+            }
+        }
+
+        // Edit user (open modal)
+        function editUser(id) {
+            const user = users.find(u => u.id === id);
+            if (user) {
+                document.getElementById('modalTitle').textContent = 'Edit User';
+                document.getElementById('userId').value = user.id;
+                document.getElementById('userName').value = user.name;
+                document.getElementById('userEmail').value = user.email;
+                document.getElementById('userRole').value = user.role;
+                document.getElementById('userStatus').value = user.status;
+                document.getElementById('userModal').style.display = 'flex';
+            }
+        }
+
+        // Delete user
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                const user = users.find(u => u.id === id);
+                users = users.filter(u => u.id !== id);
+                renderUsersTable();
+                alert(`User "${user.name}" deleted successfully!`);
+            }
+        }
+
+        // Verify seller
+        function verifyUser(id) {
+            const userIndex = users.findIndex(u => u.id === id);
+            if (userIndex !== -1 && users[userIndex].role === 'Seller') {
+                users[userIndex].status = 'Verified';
+                renderUsersTable();
+                alert(`Seller "${users[userIndex].name}" has been verified!`);
+            }
+        }
+
+        // Logout
+        function logout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('adminUsername');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Initialize page
+        function init() {
+            checkAuth();
+            renderUsersTable();
+            
+            // Set admin name
+            const adminName = sessionStorage.getItem('adminUsername') || 'Admin';
+            document.getElementById('adminName').textContent = adminName;
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            
+            // Add user button
+            document.getElementById('addUserBtn').addEventListener('click', () => {
+                document.getElementById('modalTitle').textContent = 'Add New User';
+                document.getElementById('userId').value = '';
+                document.getElementById('userForm').reset();
+                document.getElementById('userModal').style.display = 'flex';
+            });
+            
+            // Close modal
+            document.getElementById('closeModalBtn').addEventListener('click', () => {
+                document.getElementById('userModal').style.display = 'none';
+            });
+            
+            // Form submit
+            document.getElementById('userForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = document.getElementById('userId').value;
+                const name = document.getElementById('userName').value;
+                const email = document.getElementById('userEmail').value;
+                const role = document.getElementById('userRole').value;
+                const status = document.getElementById('userStatus').value;
+                
+                if (id) {
+                    updateUser(parseInt(id), name, email, role, status);
+                } else {
+                    addUser(name, email, role, status);
+                }
+                document.getElementById('userModal').style.display = 'none';
+            });
+            
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                renderUsersTable(e.target.value);
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('userModal')) {
+                    document.getElementById('userModal').style.display = 'none';
+                }
+            });
+            
+            // Navigation links
+            document.getElementById('productsLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Products management page would show all products with edit/delete options');
+            });
+            
+            document.getElementById('ordersLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Orders management page would show all orders with status update options');
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
